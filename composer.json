@@ -1,6 +1,6 @@
 {
     "name": "xddesigners/grid-field-styling",
-    "description": "Silverstripe GridField styling",
+    "description": "Add some style to your Silverstripe GridField",
     "type": "silverstripe-vendormodule",
     "license": "BSD-3-Clause",
     "authors": [
