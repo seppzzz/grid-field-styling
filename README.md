@@ -1,5 +1,5 @@
 # Silverstripe GridField styling
-Add some style to your Silverstripe GridField
+Add some style to your Silverstripe GridField.
 
 ## Installation
 Install the module trough composer:
@@ -23,6 +23,11 @@ $gridField->coloredColumn('NameOfColomnToColor');
 
 // Add color to a row by the value of a colomn
 $gridField->coloredRows('NameOfColomnThatDeterminesRowColor');
+
+// These methods can also be chained together
+$gridField
+  ->visibleFilterForm()
+  ->denseGrid();
 ```
 
 You can define your colors in yml on the LeftAndMain.
