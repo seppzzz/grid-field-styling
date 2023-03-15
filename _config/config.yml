@@ -1,20 +1,11 @@
 ---
 Name: grid-field-styling
-Before: event-tickets
 ---
 SilverStripe\Admin\LeftAndMain:
   extra_requirements_css:
-    - '/grid-field-styling/client/dist/styles/grid-field-styling.css'
+    - 'xddesigners/grid-field-styling:client/dist/styles/grid-field-styling.css'
   extensions:
     - XD\GridFieldStyling\Extensions\LeftAndMainExtension
-
 SilverStripe\Forms\GridField\GridField:
   extensions:
     - XD\GridFieldStyling\Extensions\GridFieldExtension
-
-#XD\GridFieldStyling\Extensions\LeftAndMainExtension:
-#  grid_field_colors:
-#    statusnice-nieuw: '#ff6600'
-#    vegetarian-1: '#85BD4B'
-#    vegan-1: '#85BD4B'
-#    status-active: '#85BD4B'

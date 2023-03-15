@@ -25,10 +25,8 @@ class GridFieldTitleField implements GridField_HTMLProvider
      */
     public function getHTMLFragments($gridField)
     {
-
         return array(
             $this->targetFragment => '<h2 class="grid-field__title title">' . $this->title . '</h2>'
         );
     }
-
 }

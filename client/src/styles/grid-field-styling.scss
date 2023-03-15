@@ -1,18 +1,16 @@
-.grid-field{
-  td[class*="-StripThumbnail"] {
-    padding: 0.75rem;
-    img {
-      width: 50px;
-      height: auto;
-    }
+td[class*="-StripThumbnail"] {
+  padding: 0.75rem;
+  img {
+    width: 50px;
+    height: auto;
   }
+}
 
-  td[class*="-CMSThumbnail"] {
-    padding: 0.75rem;
-    img {
-      width: 100px;
-      height: auto;
-    }
+td[class*="-CMSThumbnail"] {
+  padding: 0.75rem;
+  img {
+    width: 100px;
+    height: auto;
   }
 }
 
@@ -32,12 +30,6 @@
 
   .grid-field__table {
     order: 3;
-  }
-
-  .grid-field__title-row {
-    display: none;
-    background: yellow;
-
   }
 
   .btn-toolbar .grid-field__title {
@@ -60,11 +52,6 @@
       display: block;
       clear: both;
     }
-
-    //button{
-    //  float: right;
-    //  margin: 0 0 0 1rem;
-    //}
   }
 
   .search-holder.grid-field__search-holder {
@@ -169,15 +156,7 @@
     }
   }
 
-  //.ss-gridfield-buttonrow {
-  //  display: none;
-  //}
-
   .grid-field__title-row {
-    //.grid-field__title {
-    //  float: left;
-    //}
-
     .btn {
       margin-bottom: 0;
     }
@@ -191,35 +170,4 @@
   .textarea.editable-column-field {
     height: 70px;
   }
-
 }
-
-.grid-field.colored-rows {
-  .grid-field-row--status-cart {
-    background: #faf3d9;
-    &:hover{
-      background: darken(#faf3d9,10);
-    }
-  }
-
-  .grid-field-row--vegetarian,
-  .grid-field-row--status-new,
-  .grid-field-row--status-1,
-  .grid-field-row--status-paid {
-    background: #ecffec;
-    &:hover{
-      background: darken(#ecffec,10);
-    }
-  }
-
-  .grid-field-row--status-0,
-  .grid-field-row--status-canceled {
-    background: #ffebfd;
-    &:hover{
-      background: darken(#ffebfd,5);
-    }
-  }
-}
-
-
-
