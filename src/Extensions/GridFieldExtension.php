@@ -83,7 +83,11 @@ class GridFieldExtension extends Extension
         // $columns = $config->getComponentByType(GridFieldDataColumns::class);
         // die($columns->getColumnContent($this->owner, $record, $this->owner->colorColumn));
         // $value = strip_tags($columns->getColumnContent($this->owner, $record, $this->owner->colorColumn));
-        $value = ($record->{$this->owner->colorColumn});
+        if( $record->hasMethod($this->owner->colorColumn) ){
+            $value = ($record->{$this->owner->colorColumn}());
+        } else {
+            $value = ($record->{$this->owner->colorColumn});
+        }
         $classes[] = 'grid-field-row--' . strtolower($this->owner->colorColumn) . '-' . $filter->filter($value);
     }
 
