@@ -10,6 +10,8 @@ use SilverStripe\Forms\GridField\GridFieldEditButton;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\Parsers\URLSegmentFilter;
 use XD\GridFieldStyling\Forms\GridField\GridFieldTitleField;
+use SilverStripe\ORM\FieldType\DBDatetime;
+use SilverStripe\Dev\Debug;
 
 /**
  * Class GridFieldExtension
@@ -72,23 +74,119 @@ class GridFieldExtension extends Extension
         $this->owner->addExtraClass('colored-rows');
         return $this->owner;
     }
-
-    public function updateNewRowClasses(&$classes, $total, $index, $record)
+	
+	
+	public function conditionColoredRows(...$dateFields)
     {
-        if( !$this->owner->hasExtraClass('colored-rows') ) return;
-        $filter = new URLSegmentFilter();
-        /** @var DataObject $record */
-        $config = $this->owner->getConfig();
-        /** @var GridFieldDataColumns $columns */
-        // $columns = $config->getComponentByType(GridFieldDataColumns::class);
-        // die($columns->getColumnContent($this->owner, $record, $this->owner->colorColumn));
-        // $value = strip_tags($columns->getColumnContent($this->owner, $record, $this->owner->colorColumn));
-        if( $record->hasMethod($this->owner->colorColumn) ){
-            $value = ($record->{$this->owner->colorColumn}());
-        } else {
-            $value = ($record->{$this->owner->colorColumn});
+       
+		if (empty($this->owner->colorColumns)) {
+            $this->owner->colorColumns = [];
         }
-        $classes[] = 'grid-field-row--' . strtolower($this->owner->colorColumn) . '-' . $filter->filter($value);
+
+        $this->owner->colorColumns = array_merge($this->owner->colorColumns, $dateFields);
+        $this->owner->addExtraClass('c-colored-rows');
+		
+        return $this->owner;
     }
 
+	
+	public function updateNewRowClasses(&$classes, $total, $index, $record)
+    {
+        
+		
+		
+		if ( !$this->owner->hasExtraClass( 'colored-rows' ) && !$this->owner->hasExtraClass( 'c-colored-rows' ) ) {
+        	return;
+        }
+
+        $filter = new URLSegmentFilter();
+        $config = $this->owner->getConfig();
+		
+		
+		if( $this->owner->hasExtraClass('colored-rows') ) {
+			
+			/** @var GridFieldDataColumns $columns */
+			// $columns = $config->getComponentByType(GridFieldDataColumns::class);
+			// die($columns->getColumnContent($this->owner, $record, $this->owner->colorColumn));
+			// $value = strip_tags($columns->getColumnContent($this->owner, $record, $this->owner->colorColumn));
+			if( $record->hasMethod($this->owner->colorColumn) ){
+				$value = ($record->{$this->owner->colorColumn}());
+			} else {
+				$value = ($record->{$this->owner->colorColumn});
+			}
+			$classes[] = 'grid-field-row--' . strtolower($this->owner->colorColumn) . '-' . $filter->filter($value);
+		}
+		
+		
+		
+		
+		/**
+		* pass as Array at GridField!!
+		* $gridField->conditionColoredRows(['DateFieldStart', 'DateFieldEnd']);
+		*/
+		
+        if ( $this->owner->hasExtraClass( 'c-colored-rows' ) ) {
+
+        	$now = date('Y-m-d H:i:s'); 
+
+        	foreach ( $this->owner->colorColumns as $dateFields ) {
+
+        		$start = $record->getField( $dateFields[ 0 ] );
+        		$end = $record->getField( $dateFields[ 1 ] );
+
+        			//Debug::dump("Start Field: {$dateFields[0]}, Value: {$record->getField($dateFields[0])}");
+    				//Debug::dump("End Field: {$dateFields[1]}, Value: {$record->getField($dateFields[1])}");
+					//Debug::dump($start);
+        			//Debug::dump($end);
+				
+
+        		// Modify or customize the logic based on your requirements
+        		switch ( true ) {
+        			case $start < $now && $end < $now:
+        				$this->addClassOnce( $classes, 'grid-field-row--past-date' );
+        				break;
+        			case $start <= $now && $end >= $now:
+        				$this->addClassOnce( $classes, 'grid-field-row--live-date' );
+        				break;
+        			case $start > $now && $end > $now:
+        				$this->addClassOnce( $classes, 'grid-field-row--future-date' );
+        				break;
+        		}
+
+        		
+
+        	}
+        }
+     }
+	
+	
+	/**
+	* Add a class to the array only if it doesn't exist.
+	*
+	* @param array $classes
+	* @param string $classToAdd
+	*/
+	
+	private function addClassOnce(&$classes, $classToAdd) {
+		if (!in_array($classToAdd, $classes)) {
+			$classes[] = $classToAdd;
+		}
+	}
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
